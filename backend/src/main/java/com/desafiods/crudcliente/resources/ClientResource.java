@@ -1,12 +1,10 @@
 package com.desafiods.crudcliente.resources;
 
 import com.desafiods.crudcliente.dto.ClientDTO;
-import com.desafiods.crudcliente.entity.Client;
 import com.desafiods.crudcliente.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -55,6 +53,12 @@ public class ClientResource {
     public ResponseEntity<ClientDTO> update(@PathVariable Long id, @RequestBody ClientDTO clientDTO) {
         clientDTO = clientService.update(id, clientDTO);
         return ResponseEntity.ok().body(clientDTO);
+    }
+
+    @DeleteMapping(value = "/{id}" )
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        clientService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
 

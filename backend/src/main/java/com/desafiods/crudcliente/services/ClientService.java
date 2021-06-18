@@ -5,13 +5,12 @@ import com.desafiods.crudcliente.entity.Client;
 import com.desafiods.crudcliente.repositories.ClientRepository;
 import com.desafiods.crudcliente.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
@@ -67,5 +66,17 @@ public class ClientService {
             throw  new ResourceNotFoundException("Id not found " + id);
 
         }
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        try {
+            clientRepository.deleteById(id);
+        }
+        catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException("Id not found " + id);
+
+        }
+
     }
 }
